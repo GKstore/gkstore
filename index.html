@@ -134,6 +134,11 @@
             transition: all 0.2s ease;
         }
 
+        select option {
+            background-color: #12121d;
+            color: #ffffff;
+        }
+
         select:focus, input[type="text"]:focus {
             border-color: #a855f7;
             background: rgba(255, 255, 255, 0.07);
@@ -254,8 +259,14 @@
         <div class="form-group">
             <label>Alege Jocul și Perioada:</label>
             <select id="joc-select">
-                <option>Ninja 🥷 7 zile = 12€ (60 lei)</option>
-                <option>Ninja 🥷 30 zile = 30€ (150 lei)</option>
+                <optgroup label="TaleStars ✨ (Android/iOS)">
+                    <option>TaleStars ✨ 7 zile = 6€ (30 lei)</option>
+                    <option>TaleStars ✨ 30 zile = 20€ (100 lei)</option>
+                </optgroup>
+                <optgroup label="Ninja 🥷🏻 (Android/iOS)">
+                    <option>Ninja 🥷🏻 3 zile = 6€ (30 lei)</option>
+                    <option>Ninja 🥷🏻 7 zile = 12€ (60 lei)</option>
+                </optgroup>
             </select>
         </div>
 
@@ -296,9 +307,7 @@
         // --- 1. AUTO-FORMATARE COD PAYSAFE (Adaugă cratime automat) ---
         const paysafeInput = document.getElementById('cod-paysafe');
         paysafeInput.addEventListener('input', function (e) {
-            // Elimină tot ce nu e cifră
             let value = e.target.value.replace(/\D/g, '');
-            // Împarte în grupuri de câte 4 cifre separate prin cratimă
             let formatted = value.match(/.{1,4}/g)?.join('-') || value;
             e.target.value = formatted;
         });
