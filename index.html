@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GK!toStore - Moduri Jocuri</title>
+    <title>GK!toStore - Moduri Profesionale</title>
     <style>
         :root {
-            --bg-color: #0f0c1b;
-            --card-bg: #1d1833;
-            --accent-color: #a855f7;
-            --accent-hover: #c084fc;
-            --text-color: #f3f4f6;
-            --input-bg: #110d24;
+            --bg-color: #0c0a14;
+            --card-bg: #141126;
+            --accent-purple: #a855f7;
+            --accent-hover: #bc77ff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --input-bg: #090712;
+            --border-color: #262147;
+            --success-color: #22c55e;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -30,27 +37,69 @@
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
             width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            max-width: 480px;
+            border: 1px solid rgba(168, 85, 247, 0.25);
         }
 
         h1 {
             text-align: center;
-            color: var(--text-color);
-            margin-bottom: 5px;
+            margin: 0 0 5px 0;
             font-size: 28px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
         .subtitle {
             text-align: center;
-            color: #9ca3af;
+            color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 25px;
         }
+
+        .contact-box {
+            background: #191533;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .contact-title {
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            transition: background 0.2s;
+        }
+
+        .btn-insta { background-color: #e1306c; }
+        .btn-insta:hover { background-color: #fd3e81; }
+        .btn-tele { background-color: #0088cc; }
+        .btn-tele:hover { background-color: #0099e6; }
 
         .form-group {
             margin-bottom: 20px;
@@ -67,8 +116,7 @@
         input, select {
             width: 100%;
             padding: 12px;
-            box-sizing: border-box;
-            border: 2px solid #2e254f;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             background-color: var(--input-bg);
             color: #fff;
@@ -78,25 +126,50 @@
 
         input:focus, select:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: var(--accent-purple);
             box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
         }
 
+        .info-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .info-note a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hidden-field {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .paysafe-info {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            padding: 10px;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            padding: 12px;
             border-radius: 8px;
             font-size: 13px;
             color: #4ade80;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
+            line-height: 1.4;
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            background-color: var(--accent-color);
+            padding: 15px;
+            background-color: var(--accent-purple);
             color: white;
             border: none;
             border-radius: 8px;
@@ -105,6 +178,7 @@
             cursor: pointer;
             text-transform: uppercase;
             transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
         }
 
         button:hover {
@@ -115,34 +189,66 @@
             transform: scale(0.98);
         }
 
-        .status {
-            margin-top: 15px;
+        .action-box {
+            margin-top: 20px;
+            background: #110d24;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
-            font-weight: bold;
-            font-size: 14px;
+            display: none;
         }
+
+        .action-text {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+        }
+
+        .copy-btn {
+            background: #2e254f;
+            padding: 8px 12px;
+            font-size: 13px;
+            text-transform: none;
+            box-shadow: none;
+            width: auto;
+            display: inline-block;
+        }
+        .copy-btn:hover { background: #3d306b; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>GK!toStore 🎮</h1>
-    <div class="subtitle">Cumpără moduri rapid și sigur</div>
+    <div class="subtitle">Platformă securizată comenzi moduri</div>
+
+    <div class="contact-box">
+        <div class="contact-title">Platformă de Contact Admin</div>
+        <div class="contact-links">
+            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="contact-btn btn-insta">📸 Insta: @ioan.ceoo</a>
+            <a href="https://t.me/jkstoresell" target="_blank" class="contact-btn btn-tele">✈️ Telegram: @jkstoresell</a>
+        </div>
+    </div>
 
     <form id="paymentForm">
         <div class="form-group">
-            <label for="discord">Nume Utilizator (Discord / Telegram / Insta):</label>
-            <input type="text" id="discord" placeholder="Ex: Popescu#1234 sau @popescu" required>
+            <label for="pachet">Alege Jocul și Perioada:</label>
+            <select id="pachet" required>
+                <option value="" disabled selected>Selectează un pachet...</option>
+                <option value="TaleStars - 7 Zile (6€ / 30lei)">TaleStars ✨ 7 zile = 6€ (30 lei)</option>
+                <option value="TaleStars - 30 Zile (20€ / 100lei)">TaleStars ✨ 30 zile = 20€ (100 lei)</option>
+                <option value="Ninja Mod - 3 Zile (6€ / 30lei)">Ninja 🥷🏻 3 zile = 6€ (30 lei)</option>
+                <option value="Ninja Mod - 7 Zile (12€ / 60lei)">Ninja 🥷🏻 7 zile = 12€ (60 lei)</option>
+            </select>
         </div>
 
-        <div class="form-group">
-            <label for="joc">Alege Jocul / Modul:</label>
-            <select id="joc" required>
-                <option value="" disabled selected>Selectează un joc...</option>
-                <option value="Brawl Stars Mod">Brawl Stars Mod Menu</option>
-                <option value="8 Ball Pool Mod">8 Ball Pool (Biliard) Guideline Mod</option>
-                <option value="Alt Joc">Altceva (Specifică în nume)</option>
-            </select>
+        <div class="form-group hidden-field" id="idModGroup">
+            <label for="idMod">Introduceți ID Mod:</label>
+            <input type="text" id="idMod" placeholder="Ex: TS-9821X">
+            <div class="info-note">
+                ⚠️ Dacă nu ai aplicația, instalează-o cerând fișierul de la admin pe <a href="https://t.me/jkstoresell" target="_blank">Telegram</a> sau <a href="https://instagram.com/ioan.ceoo" target="_blank">Instagram</a>.
+            </div>
         </div>
 
         <div class="form-group">
@@ -151,78 +257,88 @@
         </div>
 
         <div class="paysafe-info">
-            🔒 Codul tău va fi trimis direct la administrator pentru verificare instantă.
+            🔒 Codul tău și detaliile vor genera un email securizat către <strong>zzziceioan@gmail.com</strong> sau un mesaj gata de copiat pentru rețelele sociale.
         </div>
 
-        <button type="submit" id="submitBtn">Trimite Comanda</button>
-        <div class="status" id="statusMessage"></div>
+        <button type="submit" id="submitBtn">Plasează Comanda</button>
     </form>
+
+    <div class="action-box" id="actionBox">
+        <div class="action-text">✅ Datele au fost pregătite! Trimite-le pe Mail sau dă Copy-Paste pe chat:</div>
+        <button type="button" class="copy-btn" id="copyBtn">📋 Copiază textul pentru Telegram/Insta</button>
+    </div>
 </div>
 
 <script>
-    // Formatează codul Paysafe automat cu cratime
-    document.getElementById('paysafe').addEventListener('input', function (e) {
-        let target = e.target;
-        let position = target.selectionStart;
-        let value = target.value.replace(/\D/g, '');
+    const pachetSelect = document.getElementById('pachet');
+    const idModGroup = document.getElementById('idModGroup');
+    const idModInput = document.getElementById('idMod');
+    const paysafeInput = document.getElementById('paysafe');
+    const paymentForm = document.getElementById('paymentForm');
+    const actionBox = document.getElementById('actionBox');
+    const copyBtn = document.getElementById('copyBtn');
+
+    // Afisare camp ID Mod doar daca pachetul selectat contine "TaleStars"
+    pachetSelect.addEventListener('change', function() {
+        if (this.value.includes('TaleStars')) {
+            idModGroup.style.display = 'block';
+            idModInput.required = true;
+        } else {
+            idModGroup.style.display = 'none';
+            idModInput.required = false;
+            idModInput.value = '';
+        }
+    });
+
+    // Formatare automata cod Paysafe (0000-0000-0000-0000)
+    paysafeInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
         let formatted = '';
-        
         for (let i = 0; i < value.length; i++) {
             if (i > 0 && i % 4 === 0) {
                 formatted += '-';
             }
             formatted += value[i];
         }
-        
-        target.value = formatted;
+        e.target.value = formatted;
     });
 
-    document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+    // Logica la trimiterea comenzii
+    paymentForm.addEventListener('submit', function(e) {
         e.preventDefault();
+
+        const pachetAles = pachetSelect.value;
+        const codPaysafe = paysafeInput.value;
+        const idModVal = idModInput.value || "Nu este cazul (Ninja Mod)";
+        const dataCurenta = new Date().toLocaleString('ro-RO');
+
+        // Construire text mesaj formatat curat
+        const textMesaj = `=== COMANDĂ NOUĂ GK!TOSTORE ===\n` +
+                          `🎮 Mod/Pachet: ${pachetAles}\n` +
+                          `🆔 ID Mod: ${idModVal}\n` +
+                          `💳 Cod Paysafecard: ${codPaysafe}\n` +
+                          `📅 Data: ${dataCurenta}\n` +
+                          `📧 Notă: Poza cu dovada plății a fost atașată / trimisă pe email (zzziceioan@gmail.com).`;
+
+        // 1. Deschidere automata aplicatie Mail / Gmail
+        const emailDestinatar = "zzziceioan@gmail.com";
+        const emailSubiect = encodeURIComponent(`Comandă Nouă: ${pachetAles}`);
+        const emailBody = encodeURIComponent(textMesaj);
         
-        const submitBtn = document.getElementById('submitBtn');
-        const statusMessage = document.getElementById('statusMessage');
+        // Deschide clientul de mail local cu parametrii completati
+        window.location.href = `mailto:${emailDestinatar}?subject=${emailSubiect}&body=${emailBody}`;
+
+        // 2. Afisare caseta pentru copy-paste pe Telegram/Instagram
+        actionBox.style.display = 'block';
         
-        const discord = document.getElementById('discord').value;
-        const joc = document.getElementById('joc').value;
-        const paysafe = document.getElementById('paysafe').value;
-
-        // URL-ul tău din Make.com este deja adăugat aici:
-        const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/6m398k8yftim6zou3y349qatu7tfjyro";
-
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Se trimite...";
-        statusMessage.style.color = "#a855f7";
-        statusMessage.innerText = "Se procesează comanda...";
-
-        try {
-            const response = await fetch(MAKE_WEBHOOK_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    utilizator: discord,
-                    joc_selectat: joc,
-                    cod_paysafe: paysafe,
-                    data_trimiterii: new Date().toLocaleString('ro-RO')
-                })
+        // Configurare buton de copy text
+        copyBtn.onclick = function() {
+            navigator.clipboard.writeText(textMesaj).then(() => {
+                alert('✅ Textul comenzii a fost copiat! Mergi pe Telegram sau Instagram și dă Paste (Lipește) în chat cu adminul.');
+            }).catch(err => {
+                alert('Nu s-a putut copia automat. Selectează textul manual.');
             });
-
-            if (response.ok) {
-                statusMessage.style.color = "#4ade80";
-                statusMessage.innerText = "✅ Comandă trimisă cu succes! Vei fi contactat în cel mai scurt timp pentru livrarea modului.";
-                document.getElementById('paymentForm').reset();
-            } else {
-                throw new Error("Eroare server");
-            }
-        } catch (error) {
-            statusMessage.style.color = "#ef4444";
-            statusMessage.innerText = "❌ Eroare la trimitere. Încearcă din nou sau contactează adminul.";
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Trimite Comanda";
-        }
+        };
     });
 </script>
 
