@@ -3,344 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GK!toStore - Moduri Profesionale</title>
+    <title>GK STORE - Platformă Contact</title>
     <style>
-        :root {
-            --bg-color: #0c0a14;
-            --card-bg: #141126;
-            --accent-purple: #a855f7;
-            --accent-hover: #bc77ff;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --input-bg: #090712;
-            --border-color: #262147;
-            --success-color: #22c55e;
-        }
-
-        *, *::before, *::after {
+        /* --- RESET & FUNDAL DINAMIC --- */
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #0b0b12;
+            color: #ffffff;
             min-height: 100vh;
-        }
-
-        .container {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            width: 100%;
-            max-width: 480px;
-            border: 1px solid rgba(168, 85, 247, 0.25);
-        }
-
-        h1 {
-            text-align: center;
-            margin: 0 0 5px 0;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .contact-box {
-            background: #191533;
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-        }
-
-        .contact-title {
-            font-size: 13px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-
-        .contact-links {
             display: flex;
-            gap: 10px;
             justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .contact-btn {
-            display: inline-flex;
+        /* Canvas pentru efectul de steluțe */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- CARDUL PRINCIPAL --- */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 440px;
+            background: rgba(18, 18, 29, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+
+        /* --- TOP HEADER (CONTACT ADMIN) --- */
+        .header-title {
+            text-align: center;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #a855f7;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .admin-badges {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 8px 14px;
-            border-radius: 6px;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
             font-size: 13px;
             font-weight: 600;
-            text-decoration: none;
-            color: #fff;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .btn-insta { background-color: #e1306c; }
-        .btn-insta:hover { background-color: #fd3e81; }
-        .btn-tele { background-color: #0088cc; }
-        .btn-tele:hover { background-color: #0099e6; }
+        .badge.insta {
+            background: linear-gradient(135deg, rgba(225, 48, 108, 0.15), rgba(131, 58, 180, 0.15));
+            border-color: rgba(225, 48, 108, 0.3);
+        }
+        .badge.insta:hover {
+            background: linear-gradient(135deg, rgba(225, 48, 108, 0.3), rgba(131, 58, 180, 0.3));
+            box-shadow: 0 0 15px rgba(225, 48, 108, 0.2);
+        }
 
+        .badge.tele {
+            background: rgba(0, 136, 204, 0.15);
+            border-color: rgba(0, 136, 204, 0.3);
+        }
+        .badge.tele:hover {
+            background: rgba(0, 136, 204, 0.3);
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.2);
+        }
+
+        .badge span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        /* --- SECȚIUNI FORMULAR --- */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
             font-size: 14px;
-            color: #cbd5e1;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
         }
 
-        input, select {
+        select, input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--input-bg);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: white;
             font-size: 15px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
             outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+            transition: all 0.2s ease;
         }
 
-        .info-note {
+        select:focus, input[type="text"]:focus {
+            border-color: #a855f7;
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.15);
+        }
+
+        /* --- METODE DE PLATĂ --- */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .pay-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .pay-box p {
             font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-style: italic;
+            color: #9ca3af;
             line-height: 1.4;
+            margin-top: 4px;
         }
 
-        .info-note a {
-            color: var(--accent-purple);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .hidden-field {
-            display: none;
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .paysafe-info {
-            background: rgba(34, 197, 94, 0.08);
-            border: 1px solid rgba(34, 197, 94, 0.25);
-            padding: 12px;
-            border-radius: 8px;
+        /* --- FOOTER & BUTOANE PLASARE COMANDĂ --- */
+        .secure-note {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            border-radius: 14px;
+            padding: 12px 16px;
+            text-align: center;
             font-size: 13px;
             color: #4ade80;
-            margin-bottom: 20px;
-            text-align: center;
             line-height: 1.4;
+            margin-top: 26px;
+            margin-bottom: 18px;
         }
 
-        button {
+        .order-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-order {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
             padding: 15px;
-            background-color: var(--accent-purple);
-            color: white;
+            border-radius: 14px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            text-transform: uppercase;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        button:hover {
-            background-color: var(--accent-hover);
-        }
-
-        button:active {
+        .btn-order:active {
             transform: scale(0.98);
         }
 
-        .action-box {
-            margin-top: 20px;
-            background: #110d24;
-            border: 1px dashed var(--border-color);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
+        .btn-order.insta-order {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        .btn-order.tele-order {
+            background: #0088cc;
         }
 
-        .action-text {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #cbd5e1;
+        /* --- ELEMENTE MONEY BURST (Efectul de Bani) --- */
+        .money-particle {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            font-size: 24px;
+            user-select: none;
+            animation: flyUpAndFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .copy-btn {
-            background: #2e254f;
-            padding: 8px 12px;
-            font-size: 13px;
-            text-transform: none;
-            box-shadow: none;
-            width: auto;
-            display: inline-block;
+        @keyframes flyUpAndFade {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(1.4);
+                opacity: 0;
+            }
         }
-        .copy-btn:hover { background: #3d306b; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>GK!toStore 🎮</h1>
-    <div class="subtitle">Platformă securizată comenzi moduri</div>
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="contact-box">
-        <div class="contact-title">Platformă de Contact Admin</div>
-        <div class="contact-links">
-            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="contact-btn btn-insta">📸 Insta: @ioan.ceoo</a>
-            <a href="https://t.me/jkstoresell" target="_blank" class="contact-btn btn-tele">✈️ Telegram: @jkstoresell</a>
+    <div class="container">
+        
+        <div class="header-title">Platformă Contact Admin</div>
+        
+        <div class="admin-badges">
+            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="badge insta">
+                📸 Insta:
+                <span>@ioan.ceoo</span>
+            </a>
+            <a href="https://t.me/jkstoresell" target="_blank" class="badge tele">
+                🚀 Telegram:
+                <span>@jkstoresell</span>
+            </a>
         </div>
-    </div>
 
-    <form id="paymentForm">
         <div class="form-group">
-            <label for="pachet">Alege Jocul și Perioada:</label>
-            <select id="pachet" required>
-                <option value="" disabled selected>Selectează un pachet...</option>
-                <option value="TaleStars - 7 Zile (6€ / 30lei)">TaleStars ✨ 7 zile = 6€ (30 lei)</option>
-                <option value="TaleStars - 30 Zile (20€ / 100lei)">TaleStars ✨ 30 zile = 20€ (100 lei)</option>
-                <option value="Ninja Mod - 3 Zile (6€ / 30lei)">Ninja 🥷🏻 3 zile = 6€ (30 lei)</option>
-                <option value="Ninja Mod - 7 Zile (12€ / 60lei)">Ninja 🥷🏻 7 zile = 12€ (60 lei)</option>
+            <label>Alege Jocul și Perioada:</label>
+            <select id="joc-select">
+                <option>Ninja 🥷 7 zile = 12€ (60 lei)</option>
+                <option>Ninja 🥷 30 zile = 30€ (150 lei)</option>
             </select>
         </div>
 
-        <div class="form-group hidden-field" id="idModGroup">
-            <label for="idMod">Introduceți ID Mod:</label>
-            <input type="text" id="idMod" placeholder="Ex: TS-9821X">
-            <div class="info-note">
-                ⚠️ Dacă nu ai aplicația, instalează-o cerând fișierul de la admin pe <a href="https://t.me/jkstoresell" target="_blank">Telegram</a> sau <a href="https://instagram.com/ioan.ceoo" target="_blank">Instagram</a>.
+        <div class="form-group">
+            <label>Metode de Plată:</label>
+            <div class="payment-grid">
+                
+                <div class="pay-box">
+                    <label style="font-size: 13px; margin-bottom: 4px;">Cod Paysafecard (16 cifre):</label>
+                    <input type="text" id="cod-paysafe" placeholder="8183-7288-2847-8288">
+                </div>
+
+                <div class="pay-box">
+                    <label style="font-size: 13px; margin-bottom: 4px;">Prin Transfer (Revolut/Bancar):</label>
+                    <input type="text" readonly value="Transfer Direct" style="color: #a855f7; font-weight: bold; background: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2);">
+                    <p>ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.</p>
+                </div>
+
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="paysafe">Cod Paysafecard (16 cifre):</label>
-            <input type="text" id="paysafe" maxlength="19" placeholder="0000-0000-0000-0000" required>
+        <div class="secure-note">
+            🔒 Codul ales, opțiunea ta și dovada vor fi trimise securizat către operator pentru activarea instantă.
         </div>
 
-        <div class="paysafe-info">
-            🔒 Codul tău și detaliile vor genera un email securizat către <strong>zzziceioan@gmail.com</strong> sau un mesaj gata de copiat pentru rețelele sociale.
+        <div class="order-actions">
+            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="btn-order insta-order class-trigger">
+                Plasează Comanda pe Insta 💸
+            </a>
+            <a href="https://t.me/jkstoresell" target="_blank" class="btn-order tele-order class-trigger">
+                Plasează Comanda pe Telegram 💰
+            </a>
         </div>
 
-        <button type="submit" id="submitBtn">Plasează Comanda</button>
-    </form>
-
-    <div class="action-box" id="actionBox">
-        <div class="action-text">✅ Datele au fost pregătite! Trimite-le pe Mail sau dă Copy-Paste pe chat:</div>
-        <button type="button" class="copy-btn" id="copyBtn">📋 Copiază textul pentru Telegram/Insta</button>
     </div>
-</div>
 
-<script>
-    const pachetSelect = document.getElementById('pachet');
-    const idModGroup = document.getElementById('idModGroup');
-    const idModInput = document.getElementById('idMod');
-    const paysafeInput = document.getElementById('paysafe');
-    const paymentForm = document.getElementById('paymentForm');
-    const actionBox = document.getElementById('actionBox');
-    const copyBtn = document.getElementById('copyBtn');
+    <script>
+        // --- 1. CONFIGURARE EFECT PARTICULE (STELUȚE CE CAD) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
 
-    // Afisare camp ID Mod doar daca pachetul selectat contine "TaleStars"
-    pachetSelect.addEventListener('change', function() {
-        if (this.value.includes('TaleStars')) {
-            idModGroup.style.display = 'block';
-            idModInput.required = true;
-        } else {
-            idModGroup.style.display = 'none';
-            idModInput.required = false;
-            idModInput.value = '';
+        let stars = [];
+        const numStars = 65; // Densitatea de steluțe pe ecran
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-    });
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-    // Formatare automata cod Paysafe (0000-0000-0000-0000)
-    paysafeInput.addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        let formatted = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formatted += '-';
+        class Star {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height; // Distribuție inițială pe tot ecranul
             }
-            formatted += value[i];
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.size = Math.random() * 2 + 0.5; // Dimensiuni mici, elegante
+                this.speed = Math.random() * 1 + 0.5; // Viteză de cădere naturală
+                this.opacity = Math.random() * 0.6 + 0.2;
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-        e.target.value = formatted;
-    });
 
-    // Logica la trimiterea comenzii
-    paymentForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+        // Inițializare listă steluțe
+        for(let i=0; i<numStars; i++) {
+            stars.push(new Star());
+        }
 
-        const pachetAles = pachetSelect.value;
-        const codPaysafe = paysafeInput.value;
-        const idModVal = idModInput.value || "Nu este cazul (Ninja Mod)";
-        const dataCurenta = new Date().toLocaleString('ro-RO');
-
-        // Construire text mesaj formatat curat
-        const textMesaj = `=== COMANDĂ NOUĂ GK!TOSTORE ===\n` +
-                          `🎮 Mod/Pachet: ${pachetAles}\n` +
-                          `🆔 ID Mod: ${idModVal}\n` +
-                          `💳 Cod Paysafecard: ${codPaysafe}\n` +
-                          `📅 Data: ${dataCurenta}\n` +
-                          `📧 Notă: Poza cu dovada plății a fost atașată / trimisă pe email (zzziceioan@gmail.com).`;
-
-        // 1. Deschidere automata aplicatie Mail / Gmail
-        const emailDestinatar = "zzziceioan@gmail.com";
-        const emailSubiect = encodeURIComponent(`Comandă Nouă: ${pachetAles}`);
-        const emailBody = encodeURIComponent(textMesaj);
-        
-        // Deschide clientul de mail local cu parametrii completati
-        window.location.href = `mailto:${emailDestinatar}?subject=${emailSubiect}&body=${emailBody}`;
-
-        // 2. Afisare caseta pentru copy-paste pe Telegram/Instagram
-        actionBox.style.display = 'block';
-        
-        // Configurare buton de copy text
-        copyBtn.onclick = function() {
-            navigator.clipboard.writeText(textMesaj).then(() => {
-                alert('✅ Textul comenzii a fost copiat! Mergi pe Telegram sau Instagram și dă Paste (Lipește) în chat cu adminul.');
-            }).catch(err => {
-                alert('Nu s-a putut copia automat. Selectează textul manual.');
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
             });
-        };
-    });
-</script>
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
 
+
+        // --- 2. EFECT EXPLOZIE EMOJIURI CU BANI CÂND APASĂ PE COMANDĂ ---
+        const actionButtons = document.querySelectorAll('.class-trigger');
+        const moneyEmojis = ['💵', '💰', '💸', '🤑', '💶'];
+
+        actionButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Obținem coordonatele click-ului sau centrul butonului
+                const rect = button.getBoundingClientRect();
+                const posX = e.clientX || (rect.left + rect.width / 2);
+                const posY = e.clientY || (rect.top + rect.height / 2);
+
+                // Generăm 15-20 de particule de bani la fiecare apăsare
+                for (let i = 0; i < 18; i++) {
+                    createMoneyParticle(posX, posY);
+                }
+            });
+        });
+
+        function createMoneyParticle(x, y) {
+            const p = document.createElement('div');
+            p.className = 'money-particle';
+            p.innerText = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+            
+            // Poziționare inițială la locul apăsării
+            p.style.left = `${x}px`;
+            p.style.top = `${y}px`;
+
+            // Direcții aleatorii de săritură (stânga/dreapta sus/jos)
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 160 + 80; // Cât de departe sar
+            
+            const moveX = Math.cos(angle) * velocity;
+            const moveY = Math.sin(angle) * velocity - 100; // Trage traiectoria ușor în sus
+            const randomRotation = Math.random() * 360 - 180;
+
+            // Setăm variabilele CSS custom pentru animația keyframe
+            p.style.setProperty('--mx', `${moveX}px`);
+            p.style.setProperty('--my', `${moveY}px`);
+            p.style.setProperty('--mr', `${randomRotation}deg`);
+
+            document.body.appendChild(p);
+
+            // Ștergem elementul din DOM după ce animația s-a terminat
+            setTimeout(() => {
+                p.remove();
+            }, 1200);
+        }
+    </script>
 </body>
 </html>
