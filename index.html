@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* Canvas pentru efectul de steluțe */
+        /* Canvas pentru steluțe */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -158,10 +158,10 @@
             font-size: 12px;
             color: #9ca3af;
             line-height: 1.4;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
-        /* --- FOOTER & BUTOANE PLASARE COMANDĂ --- */
+        /* --- FOOTER & BUTOANE --- */
         .secure-note {
             background: rgba(34, 197, 94, 0.06);
             border: 1px solid rgba(34, 197, 94, 0.15);
@@ -210,7 +210,7 @@
             background: #0088cc;
         }
 
-        /* --- ELEMENTE MONEY BURST (Efectul de Bani) --- */
+        /* --- ELEMENTE BANI (BURST) --- */
         .money-particle {
             position: fixed;
             z-index: 9999;
@@ -265,12 +265,12 @@
                 
                 <div class="pay-box">
                     <label style="font-size: 13px; margin-bottom: 4px;">Cod Paysafecard (16 cifre):</label>
-                    <input type="text" id="cod-paysafe" placeholder="8183-7288-2847-8288">
+                    <input type="text" id="cod-paysafe" maxlength="19" placeholder="7287-7728-7878-0290">
                 </div>
 
                 <div class="pay-box">
-                    <label style="font-size: 13px; margin-bottom: 4px;">Prin Transfer (Revolut/Bancar):</label>
-                    <input type="text" readonly value="Transfer Direct" style="color: #a855f7; font-weight: bold; background: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2);">
+                    <label style="font-size: 13px; margin-bottom: 4px;">Transfer Paysafecard:</label>
+                    <input type="text" readonly value="zzziceioan@gmail.com" style="color: #bc1888; font-weight: bold; background: rgba(220,39,67,0.05); border-color: rgba(220,39,67,0.2); text-align: center;">
                     <p>ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.</p>
                 </div>
 
@@ -293,12 +293,21 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURARE EFECT PARTICULE (STELUȚE CE CAD) ---
+        // --- 1. AUTO-FORMATARE COD PAYSAFE (Adaugă cratime automat) ---
+        const paysafeInput = document.getElementById('cod-paysafe');
+        paysafeInput.addEventListener('input', function (e) {
+            // Elimină tot ce nu e cifră
+            let value = e.target.value.replace(/\D/g, '');
+            // Împarte în grupuri de câte 4 cifre separate prin cratimă
+            let formatted = value.match(/.{1,4}/g)?.join('-') || value;
+            e.target.value = formatted;
+        });
+
+        // --- 2. CONFIGURARE EFECT STELUȚE PE FUNDAL ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-
         let stars = [];
-        const numStars = 65; // Densitatea de steluțe pe ecran
+        const numStars = 65;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -310,20 +319,18 @@
         class Star {
             constructor() {
                 this.reset();
-                this.y = Math.random() * canvas.height; // Distribuție inițială pe tot ecranul
+                this.y = Math.random() * canvas.height;
             }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = -10;
-                this.size = Math.random() * 2 + 0.5; // Dimensiuni mici, elegante
-                this.speed = Math.random() * 1 + 0.5; // Viteză de cădere naturală
+                this.size = Math.random() * 2 + 0.5;
+                this.speed = Math.random() * 1 + 0.5;
                 this.opacity = Math.random() * 0.6 + 0.2;
             }
             update() {
                 this.y += this.speed;
-                if (this.y > canvas.height) {
-                    this.reset();
-                }
+                if (this.y > canvas.height) this.reset();
             }
             draw() {
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
@@ -333,10 +340,7 @@
             }
         }
 
-        // Inițializare listă steluțe
-        for(let i=0; i<numStars; i++) {
-            stars.push(new Star());
-        }
+        for(let i=0; i<numStars; i++) stars.push(new Star());
 
         function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -348,19 +352,16 @@
         }
         animateStars();
 
-
-        // --- 2. EFECT EXPLOZIE EMOJIURI CU BANI CÂND APASĂ PE COMANDĂ ---
+        // --- 3. EFECT EXPLOZIE EMOJIURI CU BANI ---
         const actionButtons = document.querySelectorAll('.class-trigger');
         const moneyEmojis = ['💵', '💰', '💸', '🤑', '💶'];
 
         actionButtons.forEach(button => {
             button.addEventListener('click', function(e) {
-                // Obținem coordonatele click-ului sau centrul butonului
                 const rect = button.getBoundingClientRect();
                 const posX = e.clientX || (rect.left + rect.width / 2);
                 const posY = e.clientY || (rect.top + rect.height / 2);
 
-                // Generăm 15-20 de particule de bani la fiecare apăsare
                 for (let i = 0; i < 18; i++) {
                     createMoneyParticle(posX, posY);
                 }
@@ -371,30 +372,22 @@
             const p = document.createElement('div');
             p.className = 'money-particle';
             p.innerText = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
-            
-            // Poziționare inițială la locul apăsării
             p.style.left = `${x}px`;
             p.style.top = `${y}px`;
 
-            // Direcții aleatorii de săritură (stânga/dreapta sus/jos)
             const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 160 + 80; // Cât de departe sar
+            const velocity = Math.random() * 160 + 80;
             
             const moveX = Math.cos(angle) * velocity;
-            const moveY = Math.sin(angle) * velocity - 100; // Trage traiectoria ușor în sus
+            const moveY = Math.sin(angle) * velocity - 100;
             const randomRotation = Math.random() * 360 - 180;
 
-            // Setăm variabilele CSS custom pentru animația keyframe
             p.style.setProperty('--mx', `${moveX}px`);
             p.style.setProperty('--my', `${moveY}px`);
             p.style.setProperty('--mr', `${randomRotation}deg`);
 
             document.body.appendChild(p);
-
-            // Ștergem elementul din DOM după ce animația s-a terminat
-            setTimeout(() => {
-                p.remove();
-            }, 1200);
+            setTimeout(() => p.remove(), 1200);
         }
     </script>
 </body>
