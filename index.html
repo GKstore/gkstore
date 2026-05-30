@@ -160,7 +160,7 @@
 </div>
 
 <script>
-    // Formatează codul Paysafe automat cu cratime la fiecare 4 cifre ca să arate profi
+    // Formatează codul Paysafe automat cu cratime
     document.getElementById('paysafe').addEventListener('input', function (e) {
         let target = e.target;
         let position = target.selectionStart;
@@ -187,8 +187,8 @@
         const joc = document.getElementById('joc').value;
         const paysafe = document.getElementById('paysafe').value;
 
-        // --- SCHIMBĂ LINKUL DE MAI JOS CU CEL DIN MAKE.COM ---
-        const MAKE_WEBHOOK_URL = "AICI_PUI_LINKUL_DE_LA_MAKE_WEBHOOK";
+        // URL-ul tău din Make.com este deja adăugat aici:
+        const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/6m398k8yftim6zou3y349qatu7tfjyro";
 
         submitBtn.disabled = true;
         submitBtn.innerText = "Se trimite...";
