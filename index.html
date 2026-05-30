@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GK!toStore - Moduri Jocuri</title>
+    <style>
+        :root {
+            --bg-color: #0f0c1b;
+            --card-bg: #1d1833;
+            --accent-color: #a855f7;
+            --accent-hover: #c084fc;
+            --text-color: #f3f4f6;
+            --input-bg: #110d24;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 2px solid #2e254f;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+        }
+
+        .paysafe-info {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #4ade80;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>GK!toStore 🎮</h1>
+    <div class="subtitle">Cumpără moduri rapid și sigur</div>
+
+    <form id="paymentForm">
+        <div class="form-group">
+            <label for="discord">Nume Utilizator (Discord / Telegram / Insta):</label>
+            <input type="text" id="discord" placeholder="Ex: Popescu#1234 sau @popescu" required>
+        </div>
+
+        <div class="form-group">
+            <label for="joc">Alege Jocul / Modul:</label>
+            <select id="joc" required>
+                <option value="" disabled selected>Selectează un joc...</option>
+                <option value="Brawl Stars Mod">Brawl Stars Mod Menu</option>
+                <option value="8 Ball Pool Mod">8 Ball Pool (Biliard) Guideline Mod</option>
+                <option value="Alt Joc">Altceva (Specifică în nume)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="paysafe">Cod Paysafecard (16 cifre):</label>
+            <input type="text" id="paysafe" maxlength="19" placeholder="0000-0000-0000-0000" required>
+        </div>
+
+        <div class="paysafe-info">
+            🔒 Codul tău va fi trimis direct la administrator pentru verificare instantă.
+        </div>
+
+        <button type="submit" id="submitBtn">Trimite Comanda</button>
+        <div class="status" id="statusMessage"></div>
+    </form>
+</div>
+
+<script>
+    // Formatează codul Paysafe automat cu cratime la fiecare 4 cifre ca să arate profi
+    document.getElementById('paysafe').addEventListener('input', function (e) {
+        let target = e.target;
+        let position = target.selectionStart;
+        let value = target.value.replace(/\D/g, '');
+        let formatted = '';
+        
+        for (let i = 0; i < value.length; i++) {
+            if (i > 0 && i % 4 === 0) {
+                formatted += '-';
+            }
+            formatted += value[i];
+        }
+        
+        target.value = formatted;
+    });
+
+    document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        
+        const discord = document.getElementById('discord').value;
+        const joc = document.getElementById('joc').value;
+        const paysafe = document.getElementById('paysafe').value;
+
+        // --- SCHIMBĂ LINKUL DE MAI JOS CU CEL DIN MAKE.COM ---
+        const MAKE_WEBHOOK_URL = "AICI_PUI_LINKUL_DE_LA_MAKE_WEBHOOK";
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Se trimite...";
+        statusMessage.style.color = "#a855f7";
+        statusMessage.innerText = "Se procesează comanda...";
+
+        try {
+            const response = await fetch(MAKE_WEBHOOK_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    utilizator: discord,
+                    joc_selectat: joc,
+                    cod_paysafe: paysafe,
+                    data_trimiterii: new Date().toLocaleString('ro-RO')
+                })
+            });
+
+            if (response.ok) {
+                statusMessage.style.color = "#4ade80";
+                statusMessage.innerText = "✅ Comandă trimisă cu succes! Vei fi contactat în cel mai scurt timp pentru livrarea modului.";
+                document.getElementById('paymentForm').reset();
+            } else {
+                throw new Error("Eroare server");
+            }
+        } catch (error) {
+            statusMessage.style.color = "#ef4444";
+            statusMessage.innerText = "❌ Eroare la trimitere. Încearcă din nou sau contactează adminul.";
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Trimite Comanda";
+        }
+    });
+</script>
+
+</body>
+</html>
