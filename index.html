@@ -24,7 +24,6 @@
             position: relative;
         }
 
-        /* Canvas pentru steluțe */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -46,12 +45,11 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
-            padding: 30px 24px;
+            padding: 35px 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             margin: 20px;
         }
 
-        /* --- TOP HEADER (CONTACT ADMIN) --- */
         .header-title {
             text-align: center;
             font-size: 13px;
@@ -66,7 +64,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .badge {
@@ -109,9 +107,9 @@
             font-weight: 400;
         }
 
-        /* --- SECȚIUNI FORMULAR --- */
+        /* --- INPUTS & SELECTS --- */
         .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -147,8 +145,8 @@
 
         /* --- METODE DE PLATĂ --- */
         .payment-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 12px;
         }
 
@@ -166,16 +164,21 @@
             margin-top: 6px;
         }
 
-        /* --- FOOTER & BUTOANE --- */
+        .sub-select {
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- FOOTER TEXT & ACTION BUTTONS --- */
         .instruction-text {
-            color: #eab308; /* Galben/Auriu cool pentru atenționare */
+            color: #eab308;
             font-size: 13px;
             font-weight: 600;
             text-align: center;
             line-height: 1.5;
             margin-top: 25px;
             margin-bottom: 12px;
-            padding: 0 5px;
         }
 
         .order-actions {
@@ -213,7 +216,7 @@
             background: #0088cc;
         }
 
-        /* --- NOTIFICARE COPIAT TOAST --- */
+        /* --- TOAST & PARTICLES --- */
         .toast-notification {
             position: fixed;
             bottom: 30px;
@@ -230,9 +233,6 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
             opacity: 0;
             pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .toast-notification.show {
@@ -240,7 +240,6 @@
             opacity: 1;
         }
 
-        /* --- ELEMENTE BANI (BURST) --- */
         .money-particle {
             position: fixed;
             z-index: 9999;
@@ -251,14 +250,8 @@
         }
 
         @keyframes flyUpAndFade {
-            0% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(1.4);
-                opacity: 0;
-            }
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--mx), var(--my)) rotate(var(--mr)) scale(1.4); opacity: 0; }
         }
     </style>
 </head>
@@ -281,48 +274,58 @@
             </a>
         </div>
 
-        <!-- Selecție Joc -->
+        <!-- 1. SELECTOR REGIONE / LIMBĂ -->
         <div class="form-group">
-            <label>Alege Jocul și Perioada:</label>
-            <select id="joc-select">
-                <optgroup label="TaleStars ✨ (Android/iOS)">
-                    <option value="TaleStars ✨ 7 zile = 6€ (30 lei)">TaleStars ✨ 7 zile = 6€ (30 lei)</option>
-                    <option value="TaleStars ✨ 30 zile = 20€ (100 lei)">TaleStars ✨ 30 zile = 20€ (100 lei)</option>
-                </optgroup>
-                <optgroup label="Ninja 🥷🏻 (Android/iOS)">
-                    <option value="Ninja 🥷🏻 3 zile = 6€ (30 lei)">Ninja 🥷🏻 3 zile = 6€ (30 lei)</option>
-                    <option value="Ninja 🥷🏻 7 zile = 12€ (60 lei)">Ninja 🥷🏻 7 zile = 12€ (60 lei)</option>
-                </optgroup>
+            <label>🌐 Selectează Țara / Regiunea:</label>
+            <select id="region-select">
+                <option value="ro">Europa / România (EUR / RON)</option>
+                <option value="es">Spania (EUR)</option>
+                <option value="it">Italia (EUR)</option>
+                <option value="in">India (INR)</option>
+                <option value="bd">Bangladesh (BDT)</option>
             </select>
         </div>
 
-        <!-- Metode de plată -->
+        <!-- 2. SELECTOR JOC DINAMIC -->
+        <div class="form-group">
+            <label>Alege Jocul și Perioada:</label>
+            <select id="joc-select">
+                <!-- Generat automat din script -->
+            </select>
+        </div>
+
+        <!-- 3. METODE DE PLATĂ -->
         <div class="form-group">
             <label>Metode de Plată:</label>
             <div class="payment-grid">
                 
-                <!-- Căsuța 1: Codul Paysafe -->
+                <!-- Cod direct -->
                 <div class="pay-box">
                     <label style="font-size: 13px; margin-bottom: 4px;">Cod Paysafecard (16 cifre):</label>
                     <input type="text" id="cod-paysafe" maxlength="19" placeholder="0000-0000-0000-0000">
                 </div>
 
-                <!-- Căsuța 2: Transfer Paysafe -->
+                <!-- Transfer modular -->
                 <div class="pay-box">
-                    <label style="font-size: 13px; margin-bottom: 4px;">Transfer Paysafecard:</label>
-                    <input type="text" readonly value="zzziceioan@gmail.com" style="color: #bc1888; font-weight: bold; background: rgba(220,39,67,0.05); border-color: rgba(220,39,67,0.2); text-align: center;">
-                    <p>ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.</p>
+                    <label style="font-size: 13px; margin-bottom: 6px;">Alege metoda de plată prin transfer:</label>
+                    <select id="transfer-type" class="sub-select">
+                        <option value="paysafe">Transfer Paysafecard</option>
+                        <option value="paypal">Transfer PayPal (Transfer de familie)</option>
+                    </select>
+                    
+                    <input type="text" id="transfer-email" readonly value="zzziceioan@gmail.com" style="color: #bc1888; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center;">
+                    <p id="transfer-instructions">ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.</p>
                 </div>
 
             </div>
         </div>
 
-        <!-- TEXTUL NOU CERUT DEASUPRA BUTOANELOR -->
+        <!-- TEXT INSTRUCȚIUNE CONFORM CERINȚEI -->
         <div class="instruction-text">
             📋 Trimite textul care se va copia automat după alegerea comenzii și dă-i paste pe Instagram sau telegram
         </div>
 
-        <!-- Butoane active de trimitere -->
+        <!-- BUTOANE DE PLASARE -->
         <div class="order-actions">
             <a href="https://instagram.com/ioan.ceoo" target="_blank" class="btn-order insta-order class-trigger">
                 Plasează Comanda pe Insta 💸
@@ -334,43 +337,107 @@
 
     </div>
 
-    <!-- Notificare plutitoare pentru text copiat -->
-    <div id="toast" class="toast-notification">✅ Detalii comandă copiate! Dă paste (lipire)</div>
+    <div id="toast" class="toast-notification">✅ Comandă copiată! Acum dă Paste (Lipire)</div>
 
     <script>
-        // --- 1. SITEM DE AUTO-COPIERE TEXT LA CLICK PE COMANDĂ ---
-        const actionButtons = document.querySelectorAll('.class-trigger');
+        // --- BAZE DE DATE MULTI-LANGUAGE ȘI MONEDE ---
+        const gameData = {
+            ro: [
+                { text: "TaleStars ✨ 7 zile = 6€ (30 lei)" },
+                { text: "TaleStars ✨ 30 zile = 20€ (100 lei)" },
+                { text: "Ninja 🥷🏻 3 zile = 6€ (30 lei)" },
+                { text: "Ninja 🥷🏻 7 zile = 12€ (60 lei)" }
+            ],
+            es: [
+                { text: "TaleStars ✨ 7 dias = 6€" },
+                { text: "TaleStars ✨ 30 dias = 20€" },
+                { text: "Ninja 🥷🏻 3 dias = 6€" },
+                { text: "Ninja 🥷🏻 7 dias = 12€" }
+            ],
+            it: [
+                { text: "TaleStars ✨ 7 giorni = 6€" },
+                { text: "TaleStars ✨ 30 giorni = 20€" },
+                { text: "Ninja 🥷🏻 3 giorni = 6€" },
+                { text: "Ninja 🥷🏻 7 giorni = 12€" }
+            ],
+            in: [
+                { text: "TaleStars ✨ 7 Days = 540 INR (6€)" },
+                { text: "TaleStars ✨ 30 Days = 1800 INR (20€)" },
+                { text: "Ninja 🥷🏻 3 Days = 540 INR (6€)" },
+                { text: "Ninja 🥷🏻 7 Days = 1080 INR (12€)" }
+            ],
+            bd: [
+                { text: "TaleStars ✨ 7 Days = 760 BDT (6€)" },
+                { text: "TaleStars ✨ 30 Days = 2500 BDT (20€)" },
+                { text: "Ninja 🥷🏻 3 Days = 760 BDT (6€)" },
+                { text: "Ninja 🥷🏻 7 Days = 1520 BDT (12€)" }
+            ]
+        };
+
+        const regionSelect = document.getElementById('region-select');
         const jocSelect = document.getElementById('joc-select');
+
+        function updateGames() {
+            const selectedRegion = regionSelect.value;
+            jocSelect.innerHTML = "";
+            gameData[selectedRegion].forEach(game => {
+                let opt = document.createElement('option');
+                opt.value = game.text;
+                opt.innerText = game.text;
+                jocSelect.appendChild(opt);
+            });
+        }
+        regionSelect.addEventListener('change', updateGames);
+        updateGames();
+
+        // --- MANAGEMENT TRANSFER DINAMIC ---
+        const transferType = document.getElementById('transfer-type');
+        const transferEmail = document.getElementById('transfer-email');
+        const transferInstructions = document.getElementById('transfer-instructions');
+
+        transferType.addEventListener('change', function() {
+            if(this.value === 'paysafe') {
+                transferEmail.value = "zzziceioan@gmail.com";
+                transferEmail.style.color = "#bc1888";
+                transferInstructions.innerHTML = "ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.";
+            } else if(this.value === 'paypal') {
+                transferEmail.value = "ioanceobanu987@gmail.com";
+                transferEmail.style.color = "#3b82f6";
+                transferInstructions.innerHTML = "ℹ️ Selectează obligatoriu 'Transfer de Familie' (Friends & Family) și trimite poza cu dovada tranzacției.";
+            }
+        });
+
+        // --- AUTO-COPIERE CORECTĂ LA CLICK ---
+        const actionButtons = document.querySelectorAll('.class-trigger');
         const codPaysafe = document.getElementById('cod-paysafe');
         const toast = document.getElementById('toast');
 
         actionButtons.forEach(button => {
             button.addEventListener('click', function(e) {
-                // Generăm textul curat cu detaliile selectate
+                const taraAleasa = regionSelect.options[regionSelect.selectedIndex].text;
                 const produsAles = jocSelect.value;
                 const codIntrodus = codPaysafe.value.trim();
-                
-                let textDeCopiat = `Salut! Doresc să dau o comandă:\n`;
-                textDeCopiat += `🛒 Produs: ${produsAles}\n`;
-                
+                const tipTransfer = transferType.options[transferType.selectedIndex].text;
+                const emailFolosit = transferEmail.value;
+
+                let textDeCopiat = `Salut! Am generat o nouă comandă:\n`;
+                textDeCopiat += `🌐 Regiune: ${taraAleasa}\n`;
+                textDeCopiat += `🛒 Produs selectat: ${produsAles}\n`;
+
                 if(codIntrodus !== "") {
-                    textDeCopiat += `🔑 Cod Paysafecard: ${codIntrodus}`;
+                    textDeCopiat += `🔑 Cod introdus direct: ${codIntrodus}\n`;
                 } else {
-                    textDeCopiat += `💳 Metodă plată: Transfer Paysafe (Trimit imediat dovada foto a tranzacției)`;
+                    textDeCopiat += `💳 Metodă plată ales: ${tipTransfer}\n`;
+                    textDeCopiat += `📧 Trimis la e-mail: ${emailFolosit}\n`;
+                    textDeCopiat += `📸 Îți trimit imediat poza doveditoare a tranzacției!`;
                 }
 
-                // Executăm copierea automată în Clipboard-ul telefonului / PC-ului
                 navigator.clipboard.writeText(textDeCopiat).then(() => {
-                    // Arătăm notificarea vizuală „toast” timp de 2.5 secunde
                     toast.classList.add('show');
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 2500);
-                }).catch(err => {
-                    console.log('Eroare la auto-copiere', err);
+                    setTimeout(() => toast.classList.remove('show'), 2500);
                 });
 
-                // Efectul vizual de explozie cu bani
+                // Efect vizual bani
                 const rect = button.getBoundingClientRect();
                 const posX = e.clientX || (rect.left + rect.width / 2);
                 const posY = e.clientY || (rect.top + rect.height / 2);
@@ -380,85 +447,41 @@
             });
         });
 
-        // --- 2. AUTO-FORMATARE COD PAYSAFE (Cratime automate) ---
-        paysafeInput = document.getElementById('cod-paysafe');
-        paysafeInput.addEventListener('input', function (e) {
+        // --- FORMATATOR MASCA COD ---
+        codPaysafe.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
             let formatted = value.match(/.{1,4}/g)?.join('-') || value;
             e.target.value = formatted;
         });
 
-        // --- 3. CONFIGURARE EFECT STELUȚE PE FUNDAL ---
+        // --- SISTEM PARTICULE STELE ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        const numStars = 65;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
         class Star {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.size = Math.random() * 2 + 0.5;
-                this.speed = Math.random() * 1 + 0.5;
-                this.opacity = Math.random() * 0.6 + 0.2;
-            }
-            update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+            reset() { this.x = Math.random() * canvas.width; this.y = -10; this.size = Math.random() * 2 + 0.5; this.speed = Math.random() * 1 + 0.5; this.opacity = Math.random() * 0.6 + 0.2; }
+            update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
+            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-
-        for(let i=0; i<numStars; i++) stars.push(new Star());
-
-        function animateStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(star => {
-                star.update();
-                star.draw();
-            });
-            requestAnimationFrame(animateStars);
-        }
+        for(let i=0; i<65; i++) stars.push(new Star());
+        function animateStars() { ctx.clearRect(0, 0, canvas.width, canvas.height); stars.forEach(star => { star.update(); star.draw(); }); requestAnimationFrame(animateStars); }
         animateStars();
 
-        // --- 4. CONFIGURARE PARTICULE BANI ---
+        // --- EXPLOZIE BANI ---
         const moneyEmojis = ['💵', '💰', '💸', '🤑', '💶'];
         function createMoneyParticle(x, y) {
-            const p = document.createElement('div');
-            p.className = 'money-particle';
+            const p = document.createElement('div'); p.className = 'money-particle';
             p.innerText = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
-            p.style.left = `${x}px`;
-            p.style.top = `${y}px`;
-
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 160 + 80;
-            
-            const moveX = Math.cos(angle) * velocity;
-            const moveY = Math.sin(angle) * velocity - 100;
-            const randomRotation = Math.random() * 360 - 180;
-
-            p.style.setProperty('--mx', `${moveX}px`);
-            p.style.setProperty('--my', `${moveY}px`);
-            p.style.setProperty('--mr', `${randomRotation}deg`);
-
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 1200);
+            p.style.left = `${x}px`; p.style.top = `${y}px`;
+            const angle = Math.random() * Math.PI * 2, velocity = Math.random() * 160 + 80;
+            p.style.setProperty('--mx', `${Math.cos(angle) * velocity}px`);
+            p.style.setProperty('--my', `${Math.sin(angle) * velocity - 100}px`);
+            p.style.setProperty('--mr', `${Math.random() * 360 - 180}deg`);
+            document.body.appendChild(p); setTimeout(() => p.remove(), 1200);
         }
     </script>
 </body>
