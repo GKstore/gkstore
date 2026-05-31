@@ -261,7 +261,7 @@
 
     <div class="container">
         
-        <div class="header-title">Platformă Contact Admin</div>
+        <div class="header-title" id="lbl-title">Platformă Contact Admin</div>
         
         <div class="admin-badges">
             <a href="https://instagram.com/ioan.ceoo" target="_blank" class="badge insta">
@@ -274,12 +274,12 @@
             </a>
         </div>
 
-        <!-- 1. SELECTOR REGIONE / LIMBĂ -->
+        <!-- 1. SELECTOR REGIUNE -->
         <div class="form-group">
-            <label>🌐 Selectează Țara / Regiunea:</label>
+            <label id="lbl-region">🌐 Selectează Țara / Regiunea:</label>
             <select id="region-select">
                 <option value="ro">Europa / România (EUR / RON)</option>
-                <option value="es">Spania (EUR)</option>
+                <option value="es">España (EUR)</option>
                 <option value="it">Italia (EUR)</option>
                 <option value="in">India (INR)</option>
                 <option value="bd">Bangladesh (BDT)</option>
@@ -288,29 +288,28 @@
 
         <!-- 2. SELECTOR JOC DINAMIC -->
         <div class="form-group">
-            <label>Alege Jocul și Perioada:</label>
+            <label id="lbl-game">Alege Jocul și Perioada:</label>
             <select id="joc-select">
-                <!-- Generat automat din script -->
+                <!-- Generat automat -->
             </select>
         </div>
 
         <!-- 3. METODE DE PLATĂ -->
         <div class="form-group">
-            <label>Metode de Plată:</label>
+            <label id="lbl-payment-methods">Metode de Plată:</label>
             <div class="payment-grid">
                 
                 <!-- Cod direct -->
                 <div class="pay-box">
-                    <label style="font-size: 13px; margin-bottom: 4px;">Cod Paysafecard (16 cifre):</label>
+                    <label id="lbl-code-title" style="font-size: 13px; margin-bottom: 4px;">Cod Paysafecard (16 cifre):</label>
                     <input type="text" id="cod-paysafe" maxlength="19" placeholder="0000-0000-0000-0000">
                 </div>
 
                 <!-- Transfer modular -->
                 <div class="pay-box">
-                    <label style="font-size: 13px; margin-bottom: 6px;">Alege metoda de plată prin transfer:</label>
+                    <label id="lbl-transfer-title" style="font-size: 13px; margin-bottom: 6px;">Alege metoda de plată prin transfer:</label>
                     <select id="transfer-type" class="sub-select">
-                        <option value="paysafe">Transfer Paysafecard</option>
-                        <option value="paypal">Transfer PayPal (Transfer de familie)</option>
+                        <!-- Generat dinamic la traducere -->
                     </select>
                     
                     <input type="text" id="transfer-email" readonly value="zzziceioan@gmail.com" style="color: #bc1888; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center;">
@@ -320,17 +319,17 @@
             </div>
         </div>
 
-        <!-- TEXT INSTRUCȚIUNE CONFORM CERINȚEI -->
-        <div class="instruction-text">
+        <!-- TEXT INSTRUCȚIUNE DINAMICĂ -->
+        <div class="instruction-text" id="lbl-instruction">
             📋 Trimite textul care se va copia automat după alegerea comenzii și dă-i paste pe Instagram sau telegram
         </div>
 
         <!-- BUTOANE DE PLASARE -->
         <div class="order-actions">
-            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="btn-order insta-order class-trigger">
+            <a href="https://instagram.com/ioan.ceoo" target="_blank" class="btn-order insta-order class-trigger" id="btn-insta">
                 Plasează Comanda pe Insta 💸
             </a>
-            <a href="https://t.me/jkstoresell" target="_blank" class="btn-order tele-order class-trigger">
+            <a href="https://t.me/jkstoresell" target="_blank" class="btn-order tele-order class-trigger" id="btn-tele">
                 Plasează Comanda pe Telegram 💰
             </a>
         </div>
@@ -340,96 +339,258 @@
     <div id="toast" class="toast-notification">✅ Comandă copiată! Acum dă Paste (Lipire)</div>
 
     <script>
-        // --- BAZE DE DATE MULTI-LANGUAGE ȘI MONEDE ---
-        const gameData = {
-            ro: [
-                { text: "TaleStars ✨ 7 zile = 6€ (30 lei)" },
-                { text: "TaleStars ✨ 30 zile = 20€ (100 lei)" },
-                { text: "Ninja 🥷🏻 3 zile = 6€ (30 lei)" },
-                { text: "Ninja 🥷🏻 7 zile = 12€ (60 lei)" }
-            ],
-            es: [
-                { text: "TaleStars ✨ 7 dias = 6€" },
-                { text: "TaleStars ✨ 30 dias = 20€" },
-                { text: "Ninja 🥷🏻 3 dias = 6€" },
-                { text: "Ninja 🥷🏻 7 dias = 12€" }
-            ],
-            it: [
-                { text: "TaleStars ✨ 7 giorni = 6€" },
-                { text: "TaleStars ✨ 30 giorni = 20€" },
-                { text: "Ninja 🥷🏻 3 giorni = 6€" },
-                { text: "Ninja 🥷🏻 7 giorni = 12€" }
-            ],
-            in: [
-                { text: "TaleStars ✨ 7 Days = 540 INR (6€)" },
-                { text: "TaleStars ✨ 30 Days = 1800 INR (20€)" },
-                { text: "Ninja 🥷🏻 3 Days = 540 INR (6€)" },
-                { text: "Ninja 🥷🏻 7 Days = 1080 INR (12€)" }
-            ],
-            bd: [
-                { text: "TaleStars ✨ 7 Days = 760 BDT (6€)" },
-                { text: "TaleStars ✨ 30 Days = 2500 BDT (20€)" },
-                { text: "Ninja 🥷🏻 3 Days = 760 BDT (6€)" },
-                { text: "Ninja 🥷🏻 7 Days = 1520 BDT (12€)" }
-            ]
+        // --- DICȚIONAR TRADUCERI ȘI DATE JOCURI ---
+        const localizationData = {
+            ro: {
+                title: "Platformă Contact Admin",
+                region: "🌐 Selectează Țara / Regiunea:",
+                game: "Alege Jocul și Perioada:",
+                paymentMethods: "Metode de Plată:",
+                codeTitle: "Cod Paysafecard (16 cifre):",
+                transferTitle: "Alege metoda de plată prin transfer:",
+                instruction: "📋 Trimite textul care se va copia automat după alegerea comenzii și dă-i paste pe Instagram sau telegram",
+                btnInsta: "Plasează Comanda pe Insta 💸",
+                btnTele: "Plasează Comanda pe Telegram 💰",
+                toast: "✅ Comandă copiată! Acum dă Paste (Lipire)",
+                optPaysafe: "Transfer Paysafecard",
+                optPaypal: "Transfer PayPal (Transfer de familie)",
+                infoPaysafe: "ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.",
+                infoPaypal: "ℹ️ Selectează obligatoriu 'Transfer de Familie' (Friends & Family) și trimite poza cu dovada tranzacției.",
+                msgHi: "Salut! Am generat o nouă comandă:",
+                msgRegion: "🌐 Regiune",
+                msgProduct: "🛒 Produs selectat",
+                msgDirectCode: "🔑 Cod introdus direct",
+                msgMethod: "💳 Metodă plată aleasă",
+                msgSentTo: "📧 Trimis la e-mail",
+                msgProof: "📸 Îți trimit imediat poza doveditoare a tranzacției!",
+                games: [
+                    "TaleStars ✨ 7 zile = 6€ (30 lei)",
+                    "TaleStars ✨ 30 zile = 20€ (100 lei)",
+                    "Ninja 🥷🏻 3 zile = 6€ (30 lei)",
+                    "Ninja 🥷🏻 7 zile = 12€ (60 lei)"
+                ]
+            },
+            es: {
+                title: "Plataforma de Contacto Admin",
+                region: "🌐 Selecciona País / Región:",
+                game: "Elige el Juego y el Período:",
+                paymentMethods: "Métodos de Pago:",
+                codeTitle: "Código Paysafecard (16 dígitos):",
+                transferTitle: "Elige el método de pago por transferencia:",
+                instruction: "📋 Envía el texto que se copiará automáticamente tras elegir el pedido y pégalo en Instagram o Telegram",
+                btnInsta: "Realizar Pedido en Insta 💸",
+                btnTele: "Realizar Pedido en Telegram 💰",
+                toast: "✅ ¡Pedido copiado! Ahora dale a Pegar",
+                optPaysafe: "Transferencia Paysafecard",
+                optPaypal: "Transferencia PayPal (Envío a familiares)",
+                infoPaysafe: "ℹ️ Envía el comprobante de pago con una captura del historial de compras en Telegram o Instagram.",
+                infoPaypal: "ℹ️ Es obligatorio seleccionar 'Enviar a familiares y amigos' (Friends & Family) y enviar la captura del pago.",
+                msgHi: "¡Hola! He generado un nuevo pedido:",
+                msgRegion: "🌐 Región",
+                msgProduct: "🛒 Producto seleccionado",
+                msgDirectCode: "🔑 Código introducido",
+                msgMethod: "💳 Método de pago elegido",
+                msgSentTo: "📧 Enviado al correo",
+                msgProof: "📸 ¡Te envío el comprobante de pago ahora mismo!",
+                games: [
+                    "TaleStars ✨ 7 días = 6€",
+                    "TaleStars ✨ 30 días = 20€",
+                    "Ninja 🥷🏻 3 días = 6€",
+                    "Ninja 🥷🏻 7 días = 12€"
+                ]
+            },
+            it: {
+                title: "Piattaforma di Contatto Admin",
+                region: "🌐 Seleziona Paese / Regione:",
+                game: "Scegli il Gioco e il Periodo:",
+                paymentMethods: "Metodi di Pagamento:",
+                codeTitle: "Codice Paysafecard (16 cifre):",
+                transferTitle: "Scegli il metodo di pagamento tramite trasferimento:",
+                instruction: "📋 Invia il testo che verrà copiato automaticamente dopo la scelta dell'ordine e incollalo su Instagram o Telegram",
+                btnInsta: "Invia Ordine su Insta 💸",
+                btnTele: "Invia Ordine su Telegram 💰",
+                toast: "✅ Ordine copiato! Ora fai Incolla",
+                optPaysafe: "Trasferimento Paysafecard",
+                optPaypal: "Trasferimento PayPal (Invia a familiari)",
+                infoPaysafe: "ℹ️ Invia la prova di pagamento con uno screenshot della cronologia degli acquisti su Telegram o Instagram.",
+                infoPaypal: "ℹ️ È obbligatorio selezionare 'Invia a familiari e amici' (Friends & Family) e inviare lo screenshot della transazione.",
+                msgHi: "Ciao! Ho generato un nuovo ordine:",
+                msgRegion: "🌐 Regione",
+                msgProduct: "🛒 Prodotto selezionato",
+                msgDirectCode: "🔑 Codice inserito",
+                msgMethod: "💳 Metodo di pagamento",
+                msgSentTo: "📧 Inviato all'email",
+                msgProof: "📸 Ti invio subito lo screenshot dello screening di pagamento!",
+                games: [
+                    "TaleStars ✨ 7 giorni = 6€",
+                    "TaleStars ✨ 30 giorni = 20€",
+                    "Ninja 🥷🏻 3 giorni = 6€",
+                    "Ninja 🥷🏻 7 giorni = 12€"
+                ]
+            },
+            in: {
+                title: "Admin Contact Platform",
+                region: "🌐 Select Country / Region:",
+                game: "Choose Game and Period:",
+                paymentMethods: "Payment Methods:",
+                codeTitle: "Paysafecard Code (16 digits):",
+                transferTitle: "Choose transfer payment method:",
+                instruction: "📋 Send the text that will be auto-copied after selecting the order and paste it on Instagram or Telegram",
+                btnInsta: "Place Order on Insta 💸",
+                btnTele: "Place Order on Telegram 💰",
+                toast: "✅ Order copied! Now Paste it",
+                optPaysafe: "Paysafecard Transfer",
+                optPaypal: "PayPal Transfer (Family & Friends)",
+                infoPaysafe: "ℹ️ Send payment proof via a screenshot from your purchase history on Telegram or Instagram.",
+                infoPaypal: "ℹ️ You must select 'Friends & Family' transfer and send the transaction screenshot.",
+                msgHi: "Hello! I have generated a new order:",
+                msgRegion: "🌐 Region",
+                msgProduct: "🛒 Selected Product",
+                msgDirectCode: "🔑 Code entered",
+                msgMethod: "💳 Chosen Method",
+                msgSentTo: "📧 Sent to email",
+                msgProof: "📸 Sending the transaction proof right now!",
+                games: [
+                    "TaleStars ✨ 7 Days = 540 INR (6€)",
+                    "TaleStars ✨ 30 Days = 1800 INR (20€)",
+                    "Ninja 🥷🏻 3 Days = 540 INR (6€)",
+                    "Ninja 🥷🏻 7 Days = 1080 INR (12€)"
+                ]
+            },
+            bd: {
+                title: "Admin Contact Platform",
+                region: "🌐 Select Country / Region:",
+                game: "Choose Game and Period:",
+                paymentMethods: "Payment Methods:",
+                codeTitle: "Paysafecard Code (16 digits):",
+                transferTitle: "Choose transfer payment method:",
+                instruction: "📋 Send the text that will be auto-copied after selecting the order and paste it on Instagram or Telegram",
+                btnInsta: "Place Order on Insta 💸",
+                btnTele: "Place Order on Telegram 💰",
+                toast: "✅ Order copied! Now Paste it",
+                optPaysafe: "Paysafecard Transfer",
+                optPaypal: "PayPal Transfer (Family & Friends)",
+                infoPaysafe: "ℹ️ Send payment proof via a screenshot from your purchase history on Telegram or Instagram.",
+                infoPaypal: "ℹ️ You must select 'Friends & Family' transfer and send the transaction screenshot.",
+                msgHi: "Hello! I have generated a new order:",
+                msgRegion: "🌐 Region",
+                msgProduct: "🛒 Selected Product",
+                msgDirectCode: "🔑 Code entered",
+                msgMethod: "💳 Chosen Method",
+                msgSentTo: "📧 Sent to email",
+                msgProof: "📸 Sending the transaction proof right now!",
+                games: [
+                    "TaleStars ✨ 7 Days = 760 BDT (6€)",
+                    "TaleStars ✨ 30 Days = 2500 BDT (20€)",
+                    "Ninja 🥷🏻 3 Days = 760 BDT (6€)",
+                    "Ninja 🥷🏻 7 Days = 1520 BDT (12€)"
+                ]
+            }
         };
 
         const regionSelect = document.getElementById('region-select');
         const jocSelect = document.getElementById('joc-select');
-
-        function updateGames() {
-            const selectedRegion = regionSelect.value;
-            jocSelect.innerHTML = "";
-            gameData[selectedRegion].forEach(game => {
-                let opt = document.createElement('option');
-                opt.value = game.text;
-                opt.innerText = game.text;
-                jocSelect.appendChild(opt);
-            });
-        }
-        regionSelect.addEventListener('change', updateGames);
-        updateGames();
-
-        // --- MANAGEMENT TRANSFER DINAMIC ---
         const transferType = document.getElementById('transfer-type');
         const transferEmail = document.getElementById('transfer-email');
         const transferInstructions = document.getElementById('transfer-instructions');
 
-        transferType.addEventListener('change', function() {
-            if(this.value === 'paysafe') {
+        // ELEMENTE INTERFAȚĂ PENTRU TRADUCERE
+        const lblTitle = document.getElementById('lbl-title');
+        const lblRegion = document.getElementById('lbl-region');
+        const lblGame = document.getElementById('lbl-game');
+        const lblPaymentMethods = document.getElementById('lbl-payment-methods');
+        const lblCodeTitle = document.getElementById('lbl-code-title');
+        const lblTransferTitle = document.getElementById('lbl-transfer-title');
+        const lblInstruction = document.getElementById('lbl-instruction');
+        const btnInsta = document.getElementById('btn-insta');
+        const btnTele = document.getElementById('btn-tele');
+        const toast = document.getElementById('toast');
+
+        // --- FUNCȚIE APLICARE TRADUCERI ȘI JOCURI ---
+        function applyLocalization() {
+            const lang = regionSelect.value;
+            const data = localizationData[lang];
+
+            // 1. Traducere texte statice pe ecran
+            lblTitle.innerText = data.title;
+            lblRegion.innerText = data.region;
+            lblGame.innerText = data.game;
+            lblPaymentMethods.innerText = data.paymentMethods;
+            lblCodeTitle.innerText = data.codeTitle;
+            lblTransferTitle.innerText = data.transferTitle;
+            lblInstruction.innerText = data.instruction;
+            btnInsta.innerText = data.btnInsta;
+            btnTele.innerText = data.btnTele;
+            toast.innerText = data.toast;
+
+            // 2. Re-generare listă jocuri tradusă
+            jocSelect.innerHTML = "";
+            data.games.forEach(gameText => {
+                let opt = document.createElement('option');
+                opt.value = gameText;
+                opt.innerText = gameText;
+                jocSelect.appendChild(opt);
+            });
+
+            // 3. Re-generare sub-meniu transfer tradus, păstrând valorile neschimbate
+            const currentTransferVal = transferType.value || "paysafe";
+            transferType.innerHTML = `
+                <option value="paysafe">${data.optPaysafe}</option>
+                <option value="paypal">${data.optPaypal}</option>
+            `;
+            transferType.value = currentTransferVal;
+            
+            // Forțăm actualizarea instrucțiunilor de transfer în limba nouă
+            updateTransferUI();
+        }
+
+        function updateTransferUI() {
+            const lang = regionSelect.value;
+            const data = localizationData[lang];
+
+            if(transferType.value === 'paysafe') {
                 transferEmail.value = "zzziceioan@gmail.com";
                 transferEmail.style.color = "#bc1888";
-                transferInstructions.innerHTML = "ℹ️ Trimite dovada de plată printr-o poză din istoricul achizițiilor pe Telegram sau Instagram.";
-            } else if(this.value === 'paypal') {
+                transferInstructions.innerHTML = data.infoPaysafe;
+            } else if(transferType.value === 'paypal') {
                 transferEmail.value = "ioanceobanu987@gmail.com";
                 transferEmail.style.color = "#3b82f6";
-                transferInstructions.innerHTML = "ℹ️ Selectează obligatoriu 'Transfer de Familie' (Friends & Family) și trimite poza cu dovada tranzacției.";
+                transferInstructions.innerHTML = data.infoPaypal;
             }
-        });
+        }
 
-        // --- AUTO-COPIERE CORECTĂ LA CLICK ---
+        regionSelect.addEventListener('change', applyLocalization);
+        transferType.addEventListener('change', updateTransferUI);
+        
+        // Pornire inițială a traducerilor
+        applyLocalization();
+
+        // --- SISTEM DE AUTO-COPIERE CU TRADUCERE ÎN MEMORIE ---
         const actionButtons = document.querySelectorAll('.class-trigger');
         const codPaysafe = document.getElementById('cod-paysafe');
-        const toast = document.getElementById('toast');
 
         actionButtons.forEach(button => {
             button.addEventListener('click', function(e) {
+                const lang = regionSelect.value;
+                const data = localizationData[lang];
+
                 const taraAleasa = regionSelect.options[regionSelect.selectedIndex].text;
                 const produsAles = jocSelect.value;
                 const codIntrodus = codPaysafe.value.trim();
                 const tipTransfer = transferType.options[transferType.selectedIndex].text;
                 const emailFolosit = transferEmail.value;
 
-                let textDeCopiat = `Salut! Am generat o nouă comandă:\n`;
-                textDeCopiat += `🌐 Regiune: ${taraAleasa}\n`;
-                textDeCopiat += `🛒 Produs selectat: ${produsAles}\n`;
+                // Generăm mesajul tradus dinamic conform limbii alese
+                let textDeCopiat = `${data.msgHi}\n`;
+                textDeCopiat += `${data.msgRegion}: ${taraAleasa}\n`;
+                textDeCopiat += `${data.msgProduct}: ${produsAles}\n`;
 
                 if(codIntrodus !== "") {
-                    textDeCopiat += `🔑 Cod introdus direct: ${codIntrodus}\n`;
+                    textDeCopiat += `${data.msgDirectCode}: ${codIntrodus}\n`;
                 } else {
-                    textDeCopiat += `💳 Metodă plată ales: ${tipTransfer}\n`;
-                    textDeCopiat += `📧 Trimis la e-mail: ${emailFolosit}\n`;
-                    textDeCopiat += `📸 Îți trimit imediat poza doveditoare a tranzacției!`;
+                    textDeCopiat += `${data.msgMethod}: ${tipTransfer}\n`;
+                    textDeCopiat += `${data.msgSentTo}: ${emailFolosit}\n`;
+                    textDeCopiat += `${data.msgProof}`;
                 }
 
                 navigator.clipboard.writeText(textDeCopiat).then(() => {
